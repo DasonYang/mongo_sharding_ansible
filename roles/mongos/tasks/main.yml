@@ -1,0 +1,15 @@
+---
+#This Playbook configures the mongos service of mongodb
+- name: Create the mongos configuration file
+  template: src=mongos.conf.j2 dest=/etc/mongos.conf
+  sudo: True
+
+- name: Start config server
+  command: /usr/bin/mongos --config /etc/mongos.conf
+  sudo: True
+
+#- name: copy the file for shard test
+#  template: src=testsharding.j2 dest=/tmp/testsharding.js
+
+#- name: copy the file enable  sharding
+#  template: src=enablesharding.j2 dest=/tmp/enablesharding.js

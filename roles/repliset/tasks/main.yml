@@ -1,0 +1,19 @@
+---
+- name: Create the file to initialize the mongod replica set
+  template: src=repset_init.j2 dest=/tmp/repset_init_{{ item.name }}.js
+  with_items:
+    - "{{ mongo_repl_set_list }}"
+  tags: init_rs
+
+- name: Pause for a while
+  pause: seconds=20
+
+- name: Initialize the replication set
+  shell: /usr/bin/mongo --port {{ item.port }} /tmp/repset_init_{{ item.name }}.js
+  with_items:
+    - "{{ mongo_repl_set_list }}"
+  tags: init_rs
+
+- name: Add shard
+  include: shards.yml
+  tags: add_shard

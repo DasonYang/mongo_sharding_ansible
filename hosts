@@ -1,0 +1,31 @@
+[all]
+mongo0 ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user='vagrant' ansible_ssh_private_key_file='/home/jerryyang/.vagrant.d/insecure_private_key'
+mongo1 ansible_ssh_host=127.0.0.1 ansible_ssh_port=2200 ansible_ssh_user='vagrant' ansible_ssh_private_key_file='/home/jerryyang/.vagrant.d/insecure_private_key'
+mongo2 ansible_ssh_host=127.0.0.1 ansible_ssh_port=2201 ansible_ssh_user='vagrant' ansible_ssh_private_key_file='/home/jerryyang/.vagrant.d/insecure_private_key'
+
+[mongodb-servers]
+mongo0
+mongo1
+mongo2
+
+[mongoc-servers]
+mongo0
+mongo1
+mongo2
+
+[mongod-servers]
+mongo0
+mongo1
+mongo2
+
+[mongos-servers]
+mongo0
+mongo1
+mongo2
+
+[rs-primary]
+mongo0
+
+[rs-slave]
+mongo1
+mongo2

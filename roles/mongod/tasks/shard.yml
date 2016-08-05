@@ -1,0 +1,8 @@
+---
+- name: Create the file to initialize the mongod Shard
+  template: src=shard_init.j2 dest=/tmp/shard_init_{{ item }}.js
+  with_items: groups.mongod-servers
+
+#- name: Add the shard to the mongos
+#  shell: /usr/bin/mongo localhost:{{ mongos_port }} /tmp/shard_init_{{ item }}.js
+#  with_items: groups.mongod-servers

@@ -1,0 +1,24 @@
+# mongo.conf
+#smallfiles=true
+
+#where to log
+logpath={{ mongo_db_path }}{{ item.name }}.log
+
+logappend=true
+
+# fork and run in background
+fork = true
+
+port = {{item.port}}
+
+dbpath={{ mongo_db_path }}{{ item.name }}
+
+# location of pidfile
+pidfilepath={{ mongo_db_path }}{{ item.name }}.pid
+
+
+# Ping interval for Mongo monitoring server.
+#mms-interval = <seconds>
+
+# Replication Options
+replSet={{ item.name }}

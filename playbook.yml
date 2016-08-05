@@ -1,0 +1,22 @@
+---
+# This Playbook would deploy the whole mongodb cluster with replication and sharding.
+
+- hosts: all
+  roles:
+  - role: common
+
+- hosts: mongod-servers
+  roles:
+  - role: mongod
+
+- hosts: mongoc-servers
+  roles:
+  - role: mongoc
+
+- hosts: mongos-servers
+  roles:
+  - role: mongos
+
+- hosts: rs-primary
+  roles:
+  - role: repliset

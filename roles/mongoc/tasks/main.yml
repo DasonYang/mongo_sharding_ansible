@@ -1,0 +1,22 @@
+---
+# This playbook  deploys the mongodb configurationdb  servers
+
+- name: Create data directory for mongoc configuration server
+  file: path={{ mongo_db_path }}configdb state=directory
+  sudo: True
+  tags: setup_mongoc
+
+- name: Export env
+  shell: export LC_ALL="C"
+  tags: setup_mongoc
+
+- name: Create the mongo configuration server file
+  template: src=mongoc.conf.j2 dest=/etc/mongoc.conf
+  sudo: True
+  tags: setup_mongoc
+
+- name: Start config server
+  command: /usr/bin/mongod --config /etc/mongoc.conf
+  sudo: True
+  tags: setup_mongoc
+

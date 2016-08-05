@@ -1,0 +1,62 @@
+---
+- name: get apt-key
+  command: apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
+  sudo: True
+  tags: install
+
+- name: echo to source list
+  shell: echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | tee /etc/apt/sources.list.d/10gen.list
+  sudo: True
+  tags: install
+
+- name: apt-get install
+  apt: pkg={{ item }} update_cache=yes cache_valid_time=3600
+  sudo: True
+  with_items:
+    - curl
+    - libcurl4-openssl-dev
+    - make
+    - lrzsz
+    - sysv-rc-conf
+    - iptables-persistent
+    - htop
+    - python-dev
+    - python-pip
+    - build-essential
+  tags: install
+
+- name: install mongo 10gen
+  apt: pkg=mongodb-10gen state=present update_cache=yes
+  sudo: True
+  tags: install
+
+- name: pip install
+  pip: name={{ item }}
+  sudo: True
+  with_items:
+    - pymongo
+    - mmh3
+    - pyOpenSSL
+    - pycurl
+  tags: install
+
+- name: Create the hosts file for all machines
+  template: src=hosts.j2 dest={{ansible_env.HOME}}/hosts
+  tags: set_host
+
+- name: Execute commands
+  shell: cat {{ansible_env.HOME}}/hosts >> /etc/hosts
+  sudo: True
+  tags: set_host
+
+- name: Set environment
+  lineinfile: dest=/etc/environment line="LC_ALL=C"
+  sudo: True
+  tags: set_env
+
+- name: Export env
+  shell: export LC_ALL="C"
+
+- name: Stop mongodb
+  service: name=mongodb state=stopped
+  sudo: True

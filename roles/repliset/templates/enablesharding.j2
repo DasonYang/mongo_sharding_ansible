@@ -1,0 +1,4 @@
+db.runCommand( { enableSharding : "{{item.name}}" } )
+{% for collection in item.collections %}
+db.runCommand( { shardCollection : "{{item.name}}.{{collection}}", key : { "{{collection}}.key":1 } })
+{% endfor %}

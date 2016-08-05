@@ -1,0 +1,7 @@
+
+{% for host in groups['mongod-servers'] %}
+{% set hosts = item.name+'/' + host + ':' ~ item.port  %}
+sh.addShard("{{hosts}}")
+{% endfor %}
+
+printjson(rs.status())

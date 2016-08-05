@@ -1,0 +1,20 @@
+---
+- name: Create the file to initialize the mongod Shard
+  template: src=shard_init.j2 dest=/tmp/shard_init_{{ item.name }}.js
+  with_items: 
+    - "{{ mongo_repl_set_list }}"
+
+- name: Add the shard to the mongos
+  shell: /usr/bin/mongo localhost:{{ mongos_port }} /tmp/shard_init_{{ item.name }}.js
+  with_items:
+    - "{{ mongo_repl_set_list }}"
+
+- name: Enable Sharding DB
+  template: src=enablesharding.j2 dest=/tmp/enablesharding_{{ item.name }}.js
+  with_items:
+    - '{{ shard_enable }}'
+
+- name: Execute Sharding Collections
+  shell: /usr/bin/mongo localhost:{{ mongos_port }}/admin /tmp/enablesharding_{{ item.name }}.js
+  with_items:
+    - '{{ shard_enable }}'
