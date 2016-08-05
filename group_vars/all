@@ -22,7 +22,7 @@ mongo_admin_pass: 123456
 
 mongo_db_path: '{{ansible_env.HOME}}/data/'
 
-shard_enabled_db: tpns
+shard_enabled_db: test
 
-shard_enable: {"name":"tpns", "collections":['account','allow','appkey','appkeyfile','client','device','lang','mapping']}
+shard_enable: {"name":"test", "collections":['cola','colb','colc','cold']}
 
